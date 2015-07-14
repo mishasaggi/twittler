@@ -19,10 +19,22 @@
           index -= 1;
         }*/
 
+
+
         var $body = $('body');
-        $body.addClass('feed');
+        $body.addClass('navbar');
+        $('.navbar').addClass('feed');
         var index = streams.home.length - 1;
         var lastIndex = index;
+
+        var user1 = $("<button class='shawndrost'> 'shawndrost' </button>");
+        $('.navbar').prepend(user1);
+        var user2 = $("<button class='sharksforcheap'> 'sharksforcheap' </button>");
+        $('.navbar').prepend(user2);
+        var user3 = $("<button class='mracus'> 'mracus' </button>");
+        $('.navbar').prepend(user3);
+        var user4 = $("<button class='douglascalhoun'> 'douglascalhoun' </button>");
+        $('.navbar').prepend(user4);
 
         var refreshFeed = function() {
           setInterval(function(){
@@ -49,7 +61,39 @@
         }
 
         refreshFeed(); 
+        
+        $(user1).on('click', function(){
+          $('.shawndrost').hide();
+
+
+        });
+
+        $(user2).on('click', function(){
+          $('.sharksforcheap').hide();
+
+
+        });
+
+        $(user3).on('click', function(){
+          $('.mracus').hide();
+
+
+        });
+
+        $(user4).on('click', function(){
+          $('.douglascalhoun').hide();
+
+
+        });
+
+        
         //$('.shawndrost').hide();
+        /*
+        streams.users.shawndrost = [];
+streams.users.sharksforcheap = [];
+streams.users.mracus = [];
+streams.users.douglascalhoun = [];
+        */
 
       });
 
