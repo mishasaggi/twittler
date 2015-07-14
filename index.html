@@ -8,36 +8,45 @@
     <script>
 
       $(document).ready(function(){
-      /*  var $body = $('body');
-        $body.html('');
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }*/
 
-
+        //created a div so that the buttons can stay on top and feed can be prepended to div
+        //div appended to body(navbar)
 
         var $body = $('body');
         $body.addClass('navbar');
-        $('.navbar').addClass('feed');
+        var $div = $('<div />').appendTo('.navbar');
+        $div.attr('id', 'feed');
         var index = streams.home.length - 1;
         var lastIndex = index;
+        var autoRef;
 
-        var user1 = $("<button class='shawndrost'> 'shawndrost' </button>");
+        var user1 = $("<button class='btnshawndrost'> shawndrost </button>");
         $('.navbar').prepend(user1);
-        var user2 = $("<button class='sharksforcheap'> 'sharksforcheap' </button>");
+        var user2 = $("<button class='btnsharksforcheap'> sharksforcheap </button>");
         $('.navbar').prepend(user2);
-        var user3 = $("<button class='mracus'> 'mracus' </button>");
+        var user3 = $("<button class='btnmracus'> mracus </button>");
         $('.navbar').prepend(user3);
-        var user4 = $("<button class='douglascalhoun'> 'douglascalhoun' </button>");
+        var user4 = $("<button class='btndouglascalhoun'> douglascalhoun </button>");
         $('.navbar').prepend(user4);
+        var allBtn = $("<button class='allBtn'> TweetFeed </button>");
+        $('.navbar').prepend(allBtn);
 
+        /*var createButton = function(value) {
+          return ['<button class="'+value '">'+value '</button>'].join('');
+        };
+
+        var btnShawn = createButton(shawndrost);
+        $('.navbar').prepend(btnShawn);
+        var btnSharks = createButton(sharksforcheap);
+        $('.navbar').prepend(btnSharks);
+        var btnRacus = createButton(mracus);
+        $('.navbar').prepend(btnRacus);
+        var btnDoug = createButton(douglascalhoun);
+        $('.navbar').prepend(btnDoug); */
+
+        //pulls in new feed running the newTweets functions periodically
         var refreshFeed = function() {
-          setInterval(function(){
+         autoRef = setInterval(function(){
             for(var i = lastIndex + 1; i < streams.home.length - 1; i++) {
               newTweets(i);
           }
@@ -47,43 +56,65 @@
         };
 
 
+        //new tweets are pulled in from the stream datastructure, older tweets are ignored by 
+        // remembering the last index
         var newTweets = function(index) {
           var tweet = streams.home[index];
-          var $tweet = $('<li></li>').html('@'+ tweet.user + ': ' + tweet.message + "<br><span class='timestamp'>tweeted at " +tweet.created_at + '</span>');
+          var $tweet = $('<p></p>').html('@'+ tweet.user + ': ' + tweet.message + "<br><span class='timestamp'>tweeted at " +tweet.created_at + '</span>');
           $tweet.addClass(tweet.user);
-          $tweet.prependTo($('.feed'));
-          
+          $tweet.prependTo($('#feed'));
         }
 
+        //first set of tweets
         while(index >= 0) {
           newTweets(index);
           index -= 1;
         }
 
         refreshFeed(); 
+
+
+        //very basic implementation of button based user filter
+        //Next step is to try making it more concise/ dynamic
         
         $(user1).on('click', function(){
-          $('.shawndrost').hide();
-
-
+          window.clearInterval(autoRef);
+          $('.shawndrost').show();
+          $('.douglascalhoun').hide();
+          $('.mracus').hide();
+          $('.sharksforcheap').hide();
         });
 
         $(user2).on('click', function(){
-          $('.sharksforcheap').hide();
-
-
+          window.clearInterval(autoRef);
+          $('.sharksforcheap').show();
+          $('.douglascalhoun').hide();
+          $('.mracus').hide();
+          $('.shawndrost').hide();
         });
 
         $(user3).on('click', function(){
-          $('.mracus').hide();
-
-
+          window.clearInterval(autoRef);
+          $('.mracus').show();
+          $('.douglascalhoun').hide();
+          $('.sharksforcheap').hide();
+          $('.shawndrost').hide();
         });
 
         $(user4).on('click', function(){
-          $('.douglascalhoun').hide();
+          window.clearInterval(autoRef);
+          $('.douglascalhoun').show();
+          $('.mracus').hide();
+          $('.sharksforcheap').hide();
+          $('.shawndrost').hide();
+        });
 
-
+        $(allBtn).on('click', function(){
+          refreshFeed(); 
+          $('.douglascalhoun').show();
+          $('.mracus').show();
+          $('.sharksforcheap').show();
+          $('.shawndrost').show();
         });
 
         
