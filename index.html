@@ -8,9 +8,8 @@
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
+      /*  var $body = $('body');
         $body.html('');
-
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
@@ -18,7 +17,39 @@
           $tweet.text('@' + tweet.user + ': ' + tweet.message);
           $tweet.appendTo($body);
           index -= 1;
+        }*/
+
+        var $body = $('body');
+        $body.addClass('feed');
+        var index = streams.home.length - 1;
+        var lastIndex = index;
+
+        var refreshFeed = function() {
+          setInterval(function(){
+            for(var i = lastIndex + 1; i < streams.home.length - 1; i++) {
+              newTweets(i);
+          }
+          lastIndex = streams.home.length - 1;
+          
+        }, 1000);
+        };
+
+
+        var newTweets = function(index) {
+          var tweet = streams.home[index];
+          var $tweet = $('<li></li>').html('@'+ tweet.user + ': ' + tweet.message + "<br><span class='timestamp'>tweeted at " +tweet.created_at + '</span>');
+          $tweet.addClass(tweet.user);
+          $tweet.prependTo($('.feed'));
+          
         }
+
+        while(index >= 0) {
+          newTweets(index);
+          index -= 1;
+        }
+
+        refreshFeed(); 
+        //$('.shawndrost').hide();
 
       });
 
