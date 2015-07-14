@@ -3,35 +3,112 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <style type="text/css">
+
+      body {
+        background-color: #CCCCCC;
+        margin: 0%;
+      }
+
+      p {
+
+      }
+
+      .heading {
+        position: fixed;
+        z-index: 98;
+        padding-left: 30%;
+        font-size: 2em;
+      }
+      
+
+      .navbar {
+        margin-top: 8%;
+        position: fixed;
+        z-index: 99;
+        padding-left: 22%
+      }
+
+      #feed {
+        position: relative;
+        padding-left: 30%;
+        padding-top: 20%;
+
+      }
+
+      .message {
+        font-size: 1.25em;
+      }
+
+      .timestamp {
+        color:#666666;
+      }
+
+      .button {
+        height: 50px;
+        width: 135px;
+        border: 3px solid;
+        border-color: #99CCFF;
+        border-radius: 5px;
+        padding: 1px;
+        margin-bottom: 10px;
+        background-color: #FFCC00;
+        font-size: 1.1em;
+        color:#99CCFF;
+      }
+
+      .title {
+        height: 120px;
+        width: 900px;
+        float: left;
+        font-size: 2em;
+        border: 0;
+        background-color: #CCCCCC;
+      }
+
+      div {
+        position:relative;
+      }
+
+
+    </style>
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
 
-        //created a div so that the buttons can stay on top and feed can be prepended to div
-        //div appended to body(navbar)
-
+        //created two divs in body
         var $body = $('body');
-        $body.addClass('navbar');
-        var $div = $('<div />').appendTo('.navbar');
+        $body.addClass('container');
+        var $div = $('<div />').appendTo($body);
+        $div.attr('class', 'heading');
+        var $div = $('<div />').appendTo($body);
+        $div.attr('class', 'navbar');
+        var $div = $('<div />').appendTo($body);
         $div.attr('id', 'feed');
+
+        var title = $("<button class='title'> Twittler </button>");
+        $('.heading').append(title);
+
         var index = streams.home.length - 1;
         var lastIndex = index;
         var autoRef;
 
-        var user1 = $("<button class='btnshawndrost'> shawndrost </button>");
+        var user1 = $("<button class='button'> shawndrost </button>");
         $('.navbar').prepend(user1);
-        var user2 = $("<button class='btnsharksforcheap'> sharksforcheap </button>");
+        var user2 = $("<button class='button'> sharksforcheap </button>");
         $('.navbar').prepend(user2);
-        var user3 = $("<button class='btnmracus'> mracus </button>");
+        var user3 = $("<button class='button'> mracus </button>");
         $('.navbar').prepend(user3);
-        var user4 = $("<button class='btndouglascalhoun'> douglascalhoun </button>");
+        var user4 = $("<button class='button'> douglascalhoun </button>");
         $('.navbar').prepend(user4);
-        var allBtn = $("<button class='allBtn'> TweetFeed </button>");
+        var allBtn = $("<button class='button'> TweetFeed </button>");
         $('.navbar').prepend(allBtn);
 
-        /*var createButton = function(value) {
+        /*
+        //alternative code - not working
+        var createButton = function(value) {
           return ['<button class="'+value '">'+value '</button>'].join('');
         };
 
@@ -60,7 +137,7 @@
         // remembering the last index
         var newTweets = function(index) {
           var tweet = streams.home[index];
-          var $tweet = $('<p></p>').html('@'+ tweet.user + ': ' + tweet.message + "<br><span class='timestamp'>tweeted at " +tweet.created_at + '</span>');
+          var $tweet = $('<p></p>').html("<span class='message'>@"+ tweet.user + ': ' + tweet.message + "</span><br><span class='timestamp'>tweeted at " +tweet.created_at + '</span>');
           $tweet.addClass(tweet.user);
           $tweet.prependTo($('#feed'));
         }
@@ -116,15 +193,6 @@
           $('.sharksforcheap').show();
           $('.shawndrost').show();
         });
-
-        
-        //$('.shawndrost').hide();
-        /*
-        streams.users.shawndrost = [];
-streams.users.sharksforcheap = [];
-streams.users.mracus = [];
-streams.users.douglascalhoun = [];
-        */
 
       });
 
